@@ -1,0 +1,13 @@
+{
+    "source_commit":  "a25e9363b3c445653c06a6914231c551d6c8332c",
+    "candidate":  "X105_SOUND_PREVIEW_DRAFT",
+    "purpose":  "ZULAL_PRIVATE_ISOLATED_UI_ACCEPTANCE",
+    "code_sha256":  "34E7B8E5F53BDF52BBE8F07D82FCDE77B03D1C80E37312AA1DF077DB70B86EE3",
+    "exe_sha256":  "DD20D87FED5B1C824021EC93EAAB1D6478D9A6C789BE4510ECD75DE5B057017D",
+    "preflight":  "PASS",
+    "physical_speaker_acceptance":  "NOT_RUN",
+    "public_alpha_update":  "FORBIDDEN",
+    "installed_trainer_update":  "FORBIDDEN",
+    "real_game_or_save":  "NOT_RUN",
+    "created_utc":  "2026-10-19T09:28:39.7464921Z"
+}
