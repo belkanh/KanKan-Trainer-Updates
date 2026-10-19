@@ -1,0 +1,13 @@
+{
+    "source_commit":  "c358cc490412523eac6f255e893afe38eb65a82c",
+    "scope":  "PRIVATE_X105_ISOLATED_UI_ACCEPTANCE_ONLY",
+    "isolated_build":  "PASS",
+    "isolated_guard":  "PASS",
+    "real_UI_speaker_test":  "NOT_RUN",
+    "game_save":  "NOT_RUN",
+    "setup_or_update":  "FORBIDDEN",
+    "public_release":  "FORBIDDEN",
+    "exe_sha256":  "161AB729BE6F0901B573216C45C174606E5511A18E709106FD16748A7613E73F",
+    "dll_sha256":  "45DC8163CC0541EDA26D0BA45336609866B2D480B996165C54C78D6AD152BA7B",
+    "created_utc":  "2026-10-19T08:42:58.6908033Z"
+}
