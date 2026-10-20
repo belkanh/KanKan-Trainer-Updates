@@ -1,0 +1,18 @@
+{
+    "schemaVersion":  1,
+    "channel":  "alpha",
+    "version":  "1.0.5",
+    "sourceCommit":  "af521d8db69273624a4e7598285626ccf5932af8",
+    "packageSha256":  "6c2d0aefdb937846e64b840e4496c14b3f697a8804ea103b0799ad344856b976",
+    "setupSha256":  "4cf0398846cc81680e448264dfcd283060f23cfe1e0c67f221e25ac9b50912df",
+    "publication":  "NOT_PERFORMED",
+    "consumerReleaseReady":  false,
+    "scope":  "OFFICIAL_GITHUB_1X_KEYLESS_QA_CANDIDATE_NOT_LIVE",
+    "exactSourceQualityGate":  "PASS",
+    "releaseBuilder":  "PASS",
+    "isolatedVelopackSmoke":  "PASS",
+    "installedUserRuntime":  "NOT_RUN",
+    "realPostHandoffRollback":  "NOT_RUN",
+    "automaticStartupApply":  "OFF",
+    "legacySignedRootPreserved":  true
+}
