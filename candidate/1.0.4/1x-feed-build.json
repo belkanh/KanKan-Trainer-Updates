@@ -1,0 +1,14 @@
+﻿{
+    "schemaVersion":  1,
+    "channel":  "alpha",
+    "version":  "1.0.4",
+    "sourceCommit":  "dcfc4a0dc179c6ca582fbf0cc37a5037e4eb71de",
+    "packageSha256":  "0B67CFFC8078661F32941356E49424A5B0B648512D5851F1323D3B0448C5A3FF",
+    "setupSha256":  "5ADD20D22D5B425DA49FF8C2F8BC6E090397947C81D03A56B72408E37F476D26",
+    "publication":  "NOT_PERFORMED",
+    "consumerReleaseReady":  false,
+    "scope":  "PUBLIC_BRANCH_QA_CANDIDATE_ONLY",
+    "qualityGate":  "PRIOR_SOURCE_QA_NOT_NEW_ARTIFACT",
+    "installTest":  "NOT_RUN",
+    "rollbackTest":  "NOT_RUN"
+}
