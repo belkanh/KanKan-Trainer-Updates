@@ -1,0 +1,17 @@
+﻿{
+    "schemaVersion":  1,
+    "channel":  "alpha",
+    "version":  "1.0.4",
+    "sourceCommit":  "dd65cc054b25149c71e21259db8a159bab698f4d",
+    "packageSha256":  "ac679cb0a1b38edc4527dc8d7a5a1af723bcd6d0ad036743df089b3bc4860872",
+    "setupSha256":  "5f33692c62a486663d2d836304df57dffb1ccaead6207a8c8090d1795d86b438",
+    "publication":  "NOT_PERFORMED",
+    "consumerReleaseReady":  false,
+    "scope":  "OFFICIAL_GITHUB_1X_KEYLESS_QA_CANDIDATE",
+    "exactSourceQualityGate":  "PASS",
+    "releaseBuilder":  "PASS",
+    "isolatedVelopackSmoke":  "PASS",
+    "installedUserRuntime":  "NOT_RUN",
+    "realPostHandoffRollback":  "NOT_RUN",
+    "automaticStartupApply":  "OFF"
+}
