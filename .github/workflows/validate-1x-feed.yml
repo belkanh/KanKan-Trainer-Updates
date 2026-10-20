@@ -1,0 +1,32 @@
+name: Validate 1.x update feed
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-feed:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Checkout exact public feed commit
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Test 1.x metadata preparation and rejection paths
+        run: python -m unittest discover -s scripts -p 'test_*.py' -v
+
+      - name: Verify live feed indexes against downloaded package bytes
+        run: python scripts/one_x_feed.py verify .
