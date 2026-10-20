@@ -7,6 +7,14 @@ This repository serves the public update metadata and package files required by 
 - Release index: `releases.alpha.json`.
 - Packages: exact full `.nupkg` files referenced by the index and signed manifest.
 
+## Newly uploaded 1.0.4 files — staged, not live alpha (2026-10-20)
+
+The 1.0.4 Windows full package and Setup are **now present in this public repository on the isolated [candidate/x104-manual-package-20261020](https://github.com/belkanh/KanKan-Trainer-Updates/tree/candidate/x104-manual-package-20261020/candidate/1.0.4) branch**, commit [`33186107b74701d8f9cc5840e2095c8bd432b94d`](https://github.com/belkanh/KanKan-Trainer-Updates/commit/33186107b74701d8f9cc5840e2095c8bd432b94d). Source commit: `dcfc4a0dc179c6ca582fbf0cc37a5037e4eb71de`. The binary assets were rebuilt on an isolated Windows workspace, SHA-256-checked, pushed using ordinary free Git, and verified against GitHub's exact Git blob SHA/size. The candidate directory includes complete 1.0.4 Velopack metadata and a non-consumer-ready provenance receipt.
+
+**Do not use these bytes as a live 1.0.3 → 1.0.4 automatic upgrade yet.** The rebuilt 1.0.4 app has no configured update feed, and the installed 1.0.3 client still requires its pinned RSA sidecar. The rebuilt binary's actual installed-runtime/partial-failure rollback acceptance is NOT_RUN. The root of `main` continues serving 1.0.3; no main feed metadata, legacy signature or live package was replaced. This is a completed **public binary staging upload**, not a completed automatic update release.
+
+---
+
 ## Published alpha status (2026-10-20 snapshot)
 
 - **Current authenticated public `alpha` feed: `1.0.3`.** The signed `kankan-update-manifest.json`, `releases.alpha.json`, `RELEASES-alpha` and `assets.alpha.json` refer to the existing `KanKan.Trainer-1.0.3-alpha-full.nupkg`. These files remain authoritative for the public feed until a separately authorized, verified promotion.
