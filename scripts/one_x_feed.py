@@ -51,57 +51,75 @@ def read_json(path: Path):
 
 
 def verify(root: Path) -> dict:
-    """Verify index/legacy feed/asset list against actual local package bytes."""
+    """Hash every Full package and validate the legacy/new 1.x shared index.
+
+    Signed 1.0.3 clients must keep a matching legacy-signed entry while new
+    1.x clients can select the newest release. Signature authenticity is NOT
+    verified here: the installed client's pinned RSA verifier still owns that.
+    """
     root = root.resolve()
     index = read_json(root / "releases.alpha.json")
     require(isinstance(index, dict) and isinstance(index.get("Assets"), list)
-            and len(index["Assets"]) == 1, "Feed must expose exactly one release")
-    asset = index["Assets"][0]
-    require(isinstance(asset, dict), "Malformed release entry")
-    version = asset.get("Version")
-    require(isinstance(version, str) and VERSION_RE.fullmatch(version) is not None,
-            "Only numeric 1.x versions are supported")
-    filename = f"{PACKAGE_ID}-{version}-{CHANNEL}-full.nupkg"
-    require(asset.get("PackageId") == PACKAGE_ID
-            and asset.get("Type") == "Full"
-            and asset.get("FileName") == filename, "Wrong package ID/type/filename")
-    require(isinstance(asset.get("Size"), int) and asset["Size"] > 0,
-            "Invalid package size")
-    require(isinstance(asset.get("SHA1"), str)
-            and SHA1_RE.fullmatch(asset["SHA1"]) is not None
-            and isinstance(asset.get("SHA256"), str)
-            and SHA256_RE.fullmatch(asset["SHA256"]) is not None,
-            "Both package digests are required")
-    package_path = root / filename
-    require(package_path.is_file() and not package_path.is_symlink(),
-            "Full package is absent or is a symlink")
-    size, sha1, sha256 = digests(package_path)
-    require(size == asset["Size"]
-            and sha1 == asset["SHA1"].upper()
-            and sha256 == asset["SHA256"].upper(),
-            "Full package bytes do not match index size/SHA1/SHA256")
+            and 1 <= len(index["Assets"]) <= 32,
+            "Feed must contain between 1 and 32 Full releases")
+    releases = index["Assets"]
+    versions: set[str] = set()
+    checked: list[tuple[dict, str, str, int]] = []
+    for asset in releases:
+        require(isinstance(asset, dict), "Malformed release entry")
+        version = asset.get("Version")
+        require(isinstance(version, str) and VERSION_RE.fullmatch(version) is not None,
+                "Only numeric 1.x versions are supported")
+        require(version not in versions, "Duplicate release version is not allowed")
+        versions.add(version)
+        filename = f"{PACKAGE_ID}-{version}-{CHANNEL}-full.nupkg"
+        require(asset.get("PackageId") == PACKAGE_ID
+                and asset.get("Type") == "Full"
+                and asset.get("FileName") == filename, "Wrong package ID/type/filename")
+        require(type(asset.get("Size")) is int and asset["Size"] > 0,
+                "Invalid package size")
+        require(isinstance(asset.get("SHA1"), str)
+                and SHA1_RE.fullmatch(asset["SHA1"]) is not None
+                and isinstance(asset.get("SHA256"), str)
+                and SHA256_RE.fullmatch(asset["SHA256"]) is not None,
+                "Both package digests are required")
+        package_path = root / filename
+        require(package_path.is_file() and not package_path.is_symlink(),
+                "Full package is absent or is a symlink")
+        size, sha1, sha256 = digests(package_path)
+        require(size == asset["Size"]
+                and sha1 == asset["SHA1"].upper()
+                and sha256 == asset["SHA256"].upper(),
+                "Full package bytes do not match index size/SHA1/SHA256")
+        checked.append((asset, sha1, sha256, size))
 
     try:
-        releases = (root / "RELEASES-alpha").read_text(encoding="utf-8-sig")
+        release_text = (root / "RELEASES-alpha").read_text(encoding="utf-8-sig")
     except (OSError, UnicodeError) as exc:
         raise FeedError("Missing or unreadable RELEASES-alpha") from exc
-    require(releases.strip() == f"{sha1} {filename} {size}",
-            "Velopack legacy RELEASES-alpha differs from the package")
-    files = read_json(root / "assets.alpha.json")
-    require(isinstance(files, list)
-            and len(files) == 2
-            and files[0] == {"RelativeFileName": f"{PACKAGE_ID}-alpha-Setup.exe",
-                             "Type": "Installer"}
-            and files[1] == {"RelativeFileName": filename, "Type": "Full"},
-            "assets.alpha.json must list the matching installer and full package")
-    installer = root / f"{PACKAGE_ID}-alpha-Setup.exe"
-    require(installer.is_file() and not installer.is_symlink() and installer.stat().st_size > 0,
-            "Matching installer is absent")
+    expected_lines = [f"{sha1} {asset['FileName']} {size}"
+                      for asset, sha1, _, size in checked]
+    require(release_text.strip() == "\n".join(expected_lines),
+            "Velopack legacy RELEASES-alpha differs from the indexed packages")
 
-    # Old 1.x builds require this signed envelope. We check consistency here,
-    # NOT cryptographic signature authenticity (that needs the pinned public key).
+    files = read_json(root / "assets.alpha.json")
+    expected_files = [{"RelativeFileName": f"{PACKAGE_ID}-alpha-Setup.exe",
+                       "Type": "Installer"}] + [
+        {"RelativeFileName": asset["FileName"], "Type": "Full"}
+        for asset, _, _, _ in checked
+    ]
+    require(files == expected_files,
+            "assets.alpha.json must list installer and every exact Full package")
+    installer = root / f"{PACKAGE_ID}-alpha-Setup.exe"
+    require(installer.is_file() and not installer.is_symlink()
+            and installer.stat().st_size > 0, "Matching installer is absent")
+
+    newest = max(checked, key=lambda x: tuple(map(int, x[0]["Version"].split("."))))
+    latest_asset, _, latest_sha256, latest_size = newest
+    latest_version = latest_asset["Version"]
     signed = root / "kankan-update-manifest.json"
-    mode = "legacy-signed"
+    mode = "legacy-signed" if signed.exists() else "1x-keyless-staged"
+    signed_version = None
     if signed.exists():
         env = read_json(signed)
         require(isinstance(env, dict)
@@ -116,24 +134,38 @@ def verify(root: Path) -> dict:
             raise FeedError("Malformed signed manifest encoding") from exc
         require(len(signature) >= 256 and isinstance(payload, dict),
                 "Missing signed manifest signature or payload")
+        legacy_entries = [row for row in checked
+                          if row[0]["Version"] == payload.get("version")]
+        require(len(legacy_entries) == 1,
+                "Legacy signed manifest version is absent from the shared feed")
+        legacy, _, legacy_sha256, legacy_size = legacy_entries[0]
         require(payload.get("packageId") == PACKAGE_ID
                 and payload.get("channel") == CHANNEL
-                and payload.get("version") == version
-                and payload.get("packageFileName") == filename
-                and payload.get("packageSize") == size
-                and str(payload.get("packageSha256", "")).upper() == sha256,
+                and payload.get("packageFileName") == legacy["FileName"]
+                and payload.get("packageSize") == legacy_size
+                and str(payload.get("packageSha256", "")).upper() == legacy_sha256,
                 "Legacy signed manifest contradicts active feed")
-    else:
-        mode = "1x-keyless-staged"
-        receipt = read_json(root / "1x-feed-build.json")
-        require(receipt.get("version") == version
-                and receipt.get("channel") == CHANNEL
-                and receipt.get("packageSha256", "").upper() == sha256
-                and isinstance(receipt.get("sourceCommit"), str)
-                and COMMIT_RE.fullmatch(receipt["sourceCommit"]) is not None,
-                "Keyless staging receipt is absent or inconsistent")
+        signed_version = legacy["Version"]
 
-    return {"version": version, "mode": mode, "bytes": size, "sha256": sha256}
+    # A mixed shared feed needs BOTH the unmodified legacy signed entry and
+    # a separately source-bound record for its newest no-RSA 1.x package.
+    if not signed.exists() or latest_version != signed_version:
+        receipt = read_json(root / "1x-feed-build.json")
+        require(isinstance(receipt, dict)
+                and receipt.get("version") == latest_version
+                and receipt.get("channel") == CHANNEL
+                and isinstance(receipt.get("packageSha256"), str)
+                and receipt["packageSha256"].upper() == latest_sha256
+                and isinstance(receipt.get("sourceCommit"), str)
+                and COMMIT_RE.fullmatch(receipt["sourceCommit"]) is not None
+                and receipt.get("consumerReleaseReady") is not True,
+                "Keyless staging receipt is absent, malformed or inconsistent")
+        if signed.exists():
+            mode = "legacy-signed+1x-keyless-staged"
+
+    return {"version": latest_version, "mode": mode,
+            "bytes": latest_size, "sha256": latest_sha256}
+
 
 
 def stage(package: Path, installer: Path, source_commit: str, dest: Path) -> dict:
