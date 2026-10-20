@@ -9,6 +9,8 @@ This repository serves the public update metadata and package files required by 
 
 ## Latest 1.0.5 candidate from corrected shared-index updater (2026-10-20)
 
+**Stable public-main QA archive (NOT LIVE):** [`main/candidate/1.0.5-af521d8`](https://github.com/belkanh/KanKan-Trainer-Updates/tree/main/candidate/1.0.5-af521d8), binary-upload commit [`ca664017`](https://github.com/belkanh/KanKan-Trainer-Updates/commit/ca664017d753aa6f49e64ec944ef7d588570fae9) with independently verified GitHub tree blobs and byte sizes. The QA receipt JSON was corrected at [`e01cbe3d`](https://github.com/belkanh/KanKan-Trainer-Updates/commit/e01cbe3d6e3b4240b408dac6855403ca34a46edc), then parsed successfully from GitHub. This is a separate non-live candidate directory, not the root feed.
+
 **Newest exact-source binary candidate (NOT LIVE):** [`candidate/x105-af521d8-20261020/candidate/1.0.5-keyless-af521d8`](https://github.com/belkanh/KanKan-Trainer-Updates/tree/candidate/x105-af521d8-20261020/candidate/1.0.5-keyless-af521d8), exact uploaded Git commit [`c29b25ecc85400d80498b3cb529adb3cccc7c2d6`](https://github.com/belkanh/KanKan-Trainer-Updates/commit/c29b25ecc85400d80498b3cb529adb3cccc7c2d6). These **newer** 1.0.5 files were compiled on the authorized Zülal Windows test machine from the private canonical source [`af521d8db69273624a4e7598285626ccf5932af8`](https://github.com/belkanh/KanKan-Trainer/commit/af521d8db69273624a4e7598285626ccf5932af8), which includes the bounded newest-Full shared-feed selector preserving the independently signed old 1.0.3 client.
 
 - Full `KanKan.Trainer-1.0.5-alpha-full.nupkg`: **96,538,194 bytes**, SHA-256 `6C2D0AEFDB937846E64B840E4496C14B3F697A8804EA103B0799AD344856B976`; Git blob `b0f004c6d3e28ab086e5b45cd685d1923ecebce4`.
@@ -16,7 +18,7 @@ This repository serves the public update metadata and package files required by 
 - Exact `af521d8` Windows Quality Gate and SHA-bound release builder **PASS**; isolated disposable Velopack install/valid update/corrupt-update preservation/uninstall smoke **PASS**. Local and GitHub binary blob IDs, byte counts, index SHA1/SHA256, and source-bound receipts **match**.
 - **NotSigned; `consumerReleaseReady=false`; automatic startup Apply OFF.** No real installed-user 1.0.4→1.0.5 acceptance or real post-handoff partial-install last-good rollback was run. Owner prohibited further 1.0.4 retesting. No installed Trainer/game/save interaction or paid release infrastructure.
 
-This is a **candidate branch only**. Main root `releases.alpha.json` and its legacy signed `kankan-update-manifest.json` still serve **1.0.3** unchanged. The earlier `fbf4a6d` 1.0.5 package archived on `main/candidate/1.0.5-keyless` below is **superseded for new QA by this `af521d8` candidate**, but retained for independent historical provenance.
+Both locations are **QA candidate archives only**, not live releases. Main root `releases.alpha.json` and its legacy signed `kankan-update-manifest.json` still serve **1.0.3** unchanged. The earlier `fbf4a6d` 1.0.5 package archived on `main/candidate/1.0.5-keyless` below is **superseded for new QA by this `af521d8` candidate**, but retained for independent historical provenance.
 
 ---
 
