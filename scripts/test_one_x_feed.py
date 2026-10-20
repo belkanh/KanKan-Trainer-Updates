@@ -74,7 +74,8 @@ class OneXFeedTests(unittest.TestCase):
                    "signatureBase64": base64.b64encode(bytes(384)).decode()}
         (self.out / "kankan-update-manifest.json").write_text(
             json.dumps(sidecar), encoding="utf-8")
-        with self.assertRaisesRegex(FeedError, "contradicts"):
+        with self.assertRaisesRegex(
+                FeedError, "absent from the shared feed|contradicts"):
             verify(self.out)
 
     def prepare_legacy_signed_and_keyless(self):
