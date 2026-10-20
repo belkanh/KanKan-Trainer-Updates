@@ -15,4 +15,4 @@
     "realPostHandoffRollback":  "NOT_RUN",
     "automaticStartupApply":  "OFF",
     "legacySignedRootPreserved":  true
-}`n
+}
