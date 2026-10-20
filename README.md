@@ -47,6 +47,14 @@ The 1.0.4 Windows full package and Setup are **now present in this public reposi
 - **Scope:** This README status is documentation, not a new update offer, package approval, consumer rollout, or change to any `alpha` feed byte. The canonical source/acceptance records remain in the private Trainer project.
 
 
+## Legacy 1.0.3 + newer 1.x shared-index validation (2026-10-20)
+
+The `scripts/one_x_feed.py verify` command now checks a bounded shared `releases.alpha.json` containing **multiple** 1.x Full packages. It hashes **every** package, enforces exact `RELEASES-alpha` / `assets.alpha.json` membership, rejects duplicate/invalid versions, and requires the old signed-manifest payload to match **its own 1.0.3 entry** while a separate exact-source 1.x receipt describes the newest release. This structural check **does not authenticate the old RSA signature**; the installed old client continues doing that with its pinned key.
+
+The eleven synthetic/negative regression cases and live 1.0.3 root-byte verification passed on [public Actions run 39433705778](https://github.com/belkanh/KanKan-Trainer-Updates/actions/runs/39433705778) / exact code SHA `469a0681e77f6bd53531f37a1bf7e570babb0f2f`. **No shared live-root index has been published yet.** Existing installed 1.0.4 single-release-only binaries are not retroactively fixed, and the current 1.0.5 candidate must be rebuilt from its newest source before consuming a mixed feed. Nothing here changes the old signed 1.0.3 root index or authorizes unattended Apply.
+
+---
+
 ## 1.x feed development and verification
 
 The repository now contains a real full-package integrity checker and a **staging-only** generator for numeric 1.x releases. They use Python 3.12 standard library only. The existing signed 1.0.3 feed stays unchanged while the new 1.x release path is developed.
