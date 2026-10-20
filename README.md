@@ -7,7 +7,20 @@ This repository serves the public update metadata and package files required by 
 - Release index: `releases.alpha.json`.
 - Packages: exact full `.nupkg` files referenced by the index and signed manifest.
 
-## New: exact-source 1.0.5 keyless update candidate (2026-10-20)
+## Latest 1.0.5 candidate from corrected shared-index updater (2026-10-20)
+
+**Newest exact-source binary candidate (NOT LIVE):** [`candidate/x105-af521d8-20261020/candidate/1.0.5-keyless-af521d8`](https://github.com/belkanh/KanKan-Trainer-Updates/tree/candidate/x105-af521d8-20261020/candidate/1.0.5-keyless-af521d8), exact uploaded Git commit [`c29b25ecc85400d80498b3cb529adb3cccc7c2d6`](https://github.com/belkanh/KanKan-Trainer-Updates/commit/c29b25ecc85400d80498b3cb529adb3cccc7c2d6). These **newer** 1.0.5 files were compiled on the authorized Zülal Windows test machine from the private canonical source [`af521d8db69273624a4e7598285626ccf5932af8`](https://github.com/belkanh/KanKan-Trainer/commit/af521d8db69273624a4e7598285626ccf5932af8), which includes the bounded newest-Full shared-feed selector preserving the independently signed old 1.0.3 client.
+
+- Full `KanKan.Trainer-1.0.5-alpha-full.nupkg`: **96,538,194 bytes**, SHA-256 `6C2D0AEFDB937846E64B840E4496C14B3F697A8804EA103B0799AD344856B976`; Git blob `b0f004c6d3e28ab086e5b45cd685d1923ecebce4`.
+- Setup `KanKan.Trainer-alpha-Setup.exe`: **100,999,762 bytes**, SHA-256 `4CF0398846CC81680E448264DFCD283060F23CFE1E0C67F221E25AC9B50912DF`; Git blob `7be42b97b8b46a5b3d302f3b68e803ec780ed2cd`.
+- Exact `af521d8` Windows Quality Gate and SHA-bound release builder **PASS**; isolated disposable Velopack install/valid update/corrupt-update preservation/uninstall smoke **PASS**. Local and GitHub binary blob IDs, byte counts, index SHA1/SHA256, and source-bound receipts **match**.
+- **NotSigned; `consumerReleaseReady=false`; automatic startup Apply OFF.** No real installed-user 1.0.4→1.0.5 acceptance or real post-handoff partial-install last-good rollback was run. Owner prohibited further 1.0.4 retesting. No installed Trainer/game/save interaction or paid release infrastructure.
+
+This is a **candidate branch only**. Main root `releases.alpha.json` and its legacy signed `kankan-update-manifest.json` still serve **1.0.3** unchanged. The earlier `fbf4a6d` 1.0.5 package archived on `main/candidate/1.0.5-keyless` below is **superseded for new QA by this `af521d8` candidate**, but retained for independent historical provenance.
+
+---
+
+## Earlier: exact-source 1.0.5 keyless update candidate (2026-10-20)
 
 **Real 1.0.5 Windows binaries and complete Velopack indexes are now retained in public [`main/candidate/1.0.5-keyless`](https://github.com/belkanh/KanKan-Trainer-Updates/tree/main/candidate/1.0.5-keyless)**, main commit [`07faa9ce9409bdc7131a6e10691e326d6f1c340c`](https://github.com/belkanh/KanKan-Trainer-Updates/commit/07faa9ce9409bdc7131a6e10691e326d6f1c340c). This is a **non-live, non-consumer-ready QA candidate folder**, not the signed root alpha feed. All eight files are identical Git blobs to the original [candidate branch commit `1f9edde`](https://github.com/belkanh/KanKan-Trainer-Updates/commit/1f9edde3a4053ba0be22b271459a328d2ad3bd27) and were copied server-side without rebuilding, retesting 1.0.4 or paying for a service. Source: private canonical [`fbf4a6df4446252fe5d29ad365c68f2d8107be82`](https://github.com/belkanh/KanKan-Trainer/commit/fbf4a6df4446252fe5d29ad365c68f2d8107be82), based on the already-tested 1.0.5 source and the active X1-04 official GitHub 1.x **no RSA manifest-key** implementation, with a hard-locked HTTPS feed and SHA-256 package checks.
 
