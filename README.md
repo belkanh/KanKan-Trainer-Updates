@@ -7,7 +7,20 @@ This repository serves the public update metadata and package files required by 
 - Release index: `releases.alpha.json`.
 - Packages: exact full `.nupkg` files referenced by the index and signed manifest.
 
-## Official GitHub keyless 1.0.4 package staged (2026-10-20 — latest)
+## New: exact-source 1.0.5 keyless update candidate (2026-10-20)
+
+**Real 1.0.5 Windows binaries and complete Velopack indexes are now present on the free public Git branch**, at [`candidate/1.0.5-keyless`](https://github.com/belkanh/KanKan-Trainer-Updates/tree/candidate/x105-keyless-20261020/candidate/1.0.5-keyless), exact public commit [`1f9edde3a4053ba0be22b271459a328d2ad3bd27`](https://github.com/belkanh/KanKan-Trainer-Updates/commit/1f9edde3a4053ba0be22b271459a328d2ad3bd27). It preserves the earlier 1.0.4 staged files in the branch ancestry. Source: private canonical [`fbf4a6df4446252fe5d29ad365c68f2d8107be82`](https://github.com/belkanh/KanKan-Trainer/commit/fbf4a6df4446252fe5d29ad365c68f2d8107be82), based on the already-tested 1.0.5 source and the active X1-04 official GitHub 1.x **no RSA manifest-key** implementation, with a hard-locked HTTPS feed and SHA-256 package checks.
+
+- Full `.nupkg`: **96,541,440 bytes**, SHA-256 `AF804A6DF557C9D102BAB7E6E6419A57795FFFB6E9566F18AAD4B7CD827AF349`
+- Setup: **101,003,008 bytes**, SHA-256 `67C37CD981AD69F7133CF603C775B73EB064D3DC4298D19FE9C894F2C031442A`
+- Exact source Windows Quality Gate **PASS**; source-bound release builder **PASS**; isolated Velopack install, update, corrupt-package preservation and uninstall smoke **PASS**. GitHub byte sizes and Git blob IDs matched local staging, and metadata/receipt were re-read.
+- `consumerReleaseReady=false`, `NotSigned`, automatic startup Apply OFF. **No actual installed-user 1.0.4 → 1.0.5 upgrade or genuine post-handoff partial-failure rollback was run**; owner requested no additional 1.0.4 tests.
+
+**The live root on `main` still serves signed 1.0.3**, because installed 1.0.3 expects the old pinned RSA envelope. This candidate upload is **not live-feed promotion**, and publishing its unsigned 1.0.5 index alone would not provide a compatible legacy upgrade. Neither a paid GitHub service nor new GitHub Actions pipeline was needed to produce or upload these binaries; Git and the Windows toolchain sufficed.
+
+---
+
+## Official GitHub keyless 1.0.4 package staged (2026-10-20)
 
 The **updated 1.0.4 build with an actual embedded official GitHub 1.x update source** is available in the [candidate/1.0.4-keyless directory](https://github.com/belkanh/KanKan-Trainer-Updates/tree/candidate/x104-manual-package-20261020/candidate/1.0.4-keyless) at public candidate commit [`fc37b75b26294c25478e8225d680f0a1d3a844e2`](https://github.com/belkanh/KanKan-Trainer-Updates/commit/fc37b75b26294c25478e8225d680f0a1d3a844e2). Exact **private canonical source** [`dd65cc054b25149c71e21259db8a159bab698f4d`](https://github.com/belkanh/KanKan-Trainer/commit/dd65cc054b25149c71e21259db8a159bab698f4d) integrates the 1.0.4 baseline with the X1-04 owner's no-RSA 1.x update-source changes and keeps an explicit manual Check/Download/Apply path. It embeds `https://raw.githubusercontent.com/belkanh/KanKan-Trainer-Updates/main` and **no 1.x RSA manifest key**. Windows source-bound Quality Gate **PASS**, release candidate builder **PASS**, isolated Velopack install/update/failure-preservation/uninstall smoke **PASS**. `Authenticode=NotSigned`; package's `consumerReleaseReady=false`.
 
