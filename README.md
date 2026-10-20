@@ -7,6 +7,14 @@ This repository serves the public update metadata and package files required by 
 - Release index: `releases.alpha.json`.
 - Packages: exact full `.nupkg` files referenced by the index and signed manifest.
 
+## Published alpha status (2026-10-20 snapshot)
+
+- **Current authenticated public `alpha` feed: `1.0.3`.** The signed `kankan-update-manifest.json`, `releases.alpha.json`, `RELEASES-alpha` and `assets.alpha.json` refer to the existing `KanKan.Trainer-1.0.3-alpha-full.nupkg`. These files remain authoritative for the public feed until a separately authorized, verified promotion.
+- **Newer `1.0.4` and `1.0.5` builds are not public feed releases.** They are private/controlled QA candidates from the canonical product repository. Source-bound Windows build and isolated Velopack package smoke results do not establish production update readiness.
+- **Publication remains blocked:** no approved, pinned-key-authenticated signed release manifest for the newer candidate; genuine interrupted **post-handoff** installed-update last-good rollback acceptance remains unverified. Automatic Apply must remain disabled. Do not replace this feed with an unsigned QA package, copy a private draft asset into the public feed, or reuse an old signature.
+- **Scope:** This README status is documentation, not a new update offer, package approval, consumer rollout, or change to any `alpha` feed byte. The canonical source/acceptance records remain in the private Trainer project.
+
+---
 **This repository is intentionally public.** Published files can be downloaded and copied by anyone. The canonical application source repository is separate. No source tree, private signing key, credentials, or local test evidence belongs here.
 
 The application accepts an update only when the pinned RSA public key verifies the signed manifest and the downloaded package matches its declared identity, size and SHA-256. A public HTTPS feed or package hash alone is not publisher authentication.
