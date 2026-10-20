@@ -7,6 +7,17 @@ This repository serves the public update metadata and package files required by 
 - Release index: `releases.alpha.json`.
 - Packages: exact full `.nupkg` files referenced by the index and signed manifest.
 
+## Official GitHub keyless 1.0.4 package staged (2026-10-20 — latest)
+
+The **updated 1.0.4 build with an actual embedded official GitHub 1.x update source** is available in the [candidate/1.0.4-keyless directory](https://github.com/belkanh/KanKan-Trainer-Updates/tree/candidate/x104-manual-package-20261020/candidate/1.0.4-keyless) at public candidate commit [`fc37b75b26294c25478e8225d680f0a1d3a844e2`](https://github.com/belkanh/KanKan-Trainer-Updates/commit/fc37b75b26294c25478e8225d680f0a1d3a844e2). Exact **private canonical source** [`dd65cc054b25149c71e21259db8a159bab698f4d`](https://github.com/belkanh/KanKan-Trainer/commit/dd65cc054b25149c71e21259db8a159bab698f4d) integrates the 1.0.4 baseline with the X1-04 owner's no-RSA 1.x update-source changes and keeps an explicit manual Check/Download/Apply path. It embeds `https://raw.githubusercontent.com/belkanh/KanKan-Trainer-Updates/main` and **no 1.x RSA manifest key**. Windows source-bound Quality Gate **PASS**, release candidate builder **PASS**, isolated Velopack install/update/failure-preservation/uninstall smoke **PASS**. `Authenticode=NotSigned`; package's `consumerReleaseReady=false`.
+
+- Full `.nupkg`: **96,541,265 bytes**, SHA-256 `AC679CB0A1B38EDC4527DC8D7A5A1AF723BCD6D0AD036743DF089B3BC4860872`
+- Alpha Setup: **101,002,833 bytes**, SHA-256 `5F33692C62A486663D2D836304DF57DFFB1CCAEAD6207A8C8090D1795D86B438`
+
+Local Git blobs and GitHub's public Git tree blob SHAs and byte counts match for both binaries. This is **a complete public Git QA staging upload**, not promotion of root live `alpha` index. Installed 1.0.3 still expects its pinned RSA manifest, so it cannot automatically transition to this newly built keyless client by rewriting an unsigned index. A separately accepted manual installer transition and real installed post-handoff failed-install recovery remain unverified. **Root live feed is still signed 1.0.3** and automatic startup Apply is OFF. The earlier `candidate/1.0.4` directory contains a different **feed-unconfigured** QA build retained for traceability; prefer the newer `candidate/1.0.4-keyless` only as an isolated release candidate.
+
+---
+
 ## Newly uploaded 1.0.4 files — staged, not live alpha (2026-10-20)
 
 The 1.0.4 Windows full package and Setup are **now present in this public repository on the isolated [candidate/x104-manual-package-20261020](https://github.com/belkanh/KanKan-Trainer-Updates/tree/candidate/x104-manual-package-20261020/candidate/1.0.4) branch**, commit [`33186107b74701d8f9cc5840e2095c8bd432b94d`](https://github.com/belkanh/KanKan-Trainer-Updates/commit/33186107b74701d8f9cc5840e2095c8bd432b94d). Source commit: `dcfc4a0dc179c6ca582fbf0cc37a5037e4eb71de`. The binary assets were rebuilt on an isolated Windows workspace, SHA-256-checked, pushed using ordinary free Git, and verified against GitHub's exact Git blob SHA/size. The candidate directory includes complete 1.0.4 Velopack metadata and a non-consumer-ready provenance receipt.
