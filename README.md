@@ -7,6 +7,17 @@ This repository serves the public update metadata and package files required by 
 - Release index: `releases.alpha.json`.
 - Packages: exact full `.nupkg` files referenced by the index and signed manifest.
 
+## 1.x update policy for the next 1.0.6 release (2026-10-20 owner clarification)
+
+The owner reports manually installing the exact 1.0.5 QA Setup on the designated Zülal test PC. This is **USER-REPORTED / installed-update and recovery acceptance UNVERIFIED**, not approval to publish or overwrite the live feed.
+
+- **New 1.x clients (starting with exact-source 1.0.5 `af521d8db69273624a4e7598285626ccf5932af8`) do not need RSA update-manifest signatures.** They consult only the official `https://raw.githubusercontent.com/belkanh/KanKan-Trainer-Updates/main/` feed, select the highest strictly valid 1.x Full release, and enforce package SHA-256 before safe user-initiated Apply. GitHub/TLS + SHA-256 are **not independent publisher signing**.
+- The historical `kankan-update-manifest.json`, signed 1.0.3 package and associated root metadata are **legacy compatibility assets, not a dependency for 1.0.5→1.0.6**. Their mere presence does not make the new client use RSA. Do not bulk-delete or silently replace them while old installations may still rely on them (including the separately protected owner PC). Retire only after explicit compatibility/distribution decision and applicable checks.
+- For **1.0.6**, first produce an exact-source Windows Quality Gate PASS and source/SHA-bound Full/Setup candidate; independently validate package bytes and complete `releases.alpha.json`, `RELEASES-alpha`, `assets.alpha.json` against the candidate. For a mixed live channel retain signed legacy identity plus the new Full entry. No fake version bump, reused old binary renamed 1.0.6, mismatched metadata or unsigned arbitrary-host feed.
+- **LIVE publication is a separate gate.** The real installed 1.0.5→new-version Check/Download/Stop/Save/Apply/restart and controlled post-handoff last-good recovery, safe test identity, operator acceptance and canonical X1-04 decision remain outstanding. Until authorized and accepted, public `main` root stays at signed 1.0.3, and automatic startup Apply stays OFF. **No work on Belkan PC, no 1.0.4 retest.**
+
+---
+
 ## Latest 1.0.5 candidate from corrected shared-index updater (2026-10-20)
 
 **Stable public-main QA archive (NOT LIVE):** [`main/candidate/1.0.5-af521d8`](https://github.com/belkanh/KanKan-Trainer-Updates/tree/main/candidate/1.0.5-af521d8), binary-upload commit [`ca664017`](https://github.com/belkanh/KanKan-Trainer-Updates/commit/ca664017d753aa6f49e64ec944ef7d588570fae9) with independently verified GitHub tree blobs and byte sizes. The QA receipt JSON was corrected at [`e01cbe3d`](https://github.com/belkanh/KanKan-Trainer-Updates/commit/e01cbe3d6e3b4240b408dac6855403ca34a46edc), then parsed successfully from GitHub. This is a separate non-live candidate directory, not the root feed.
