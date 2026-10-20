@@ -2,7 +2,7 @@ name: Validate 1.x update feed
 
 on:
   push:
-    branches: [main]
+    branches: [main, candidate/clean-1x-keyless-feed-20261020]
   pull_request:
     branches: [main]
   workflow_dispatch:
