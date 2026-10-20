@@ -1,0 +1,50 @@
+﻿{
+    "schemaVersion":  1,
+    "createdAt":  "2026-10-20T16:14:19.4948217+03:00",
+    "sourceCommit":  "fbf4a6df4446252fe5d29ad365c68f2d8107be82",
+    "qualityGate":  "PASS",
+    "version":  "1.0.5",
+    "packId":  "KanKan.Trainer",
+    "channel":  "alpha",
+    "runtime":  "win-x64",
+    "deploymentModel":  "unpackaged-winui3-self-contained",
+    "installerScope":  "per-user",
+    "automaticStartupUpdateApply":  false,
+    "updateFeed":  "https://raw.githubusercontent.com/belkanh/KanKan-Trainer-Updates/main",
+    "updateManifestTrust":  "1X_OFFICIAL_GITHUB_HTTPS_SHA256_NO_RSA",
+    "updateManifestPublicKeySha256":  "UNCONFIGURED",
+    "signingMode":  "none",
+    "signingStatus":  "NotSigned",
+    "consumerReleaseReady":  false,
+    "consumerReleaseBlockers":  [
+                                    "product-level safe update UX acceptance not yet complete",
+                                    "bundled signed/hosted install-update acceptance not yet complete"
+                                ],
+    "artifacts":  [
+                      {
+                          "name":  "assets.alpha.json",
+                          "bytes":  149,
+                          "sha256":  "8d38d1ef1c2ba45ae11ef2eea80c980956db5bfbea78ebd0e39bd4e2ceed04fd"
+                      },
+                      {
+                          "name":  "KanKan.Trainer-1.0.5-alpha-full.nupkg",
+                          "bytes":  96541440,
+                          "sha256":  "af804a6df557c9d102bab7e6e6419a57795fffb6e9566f18aad4b7cd827af349"
+                      },
+                      {
+                          "name":  "KanKan.Trainer-alpha-Setup.exe",
+                          "bytes":  101003008,
+                          "sha256":  "67c37cd981ad69f7133cf603c775b73eb064d3dc4298d19fe9c894f2c031442a"
+                      },
+                      {
+                          "name":  "releases.alpha.json",
+                          "bytes":  268,
+                          "sha256":  "ab79cbd15b03f49372143686cf35bb07a51f6024b02ed4f0d0aa9a60798c3a4d"
+                      },
+                      {
+                          "name":  "RELEASES-alpha",
+                          "bytes":  90,
+                          "sha256":  "16d4900712a6473e5fd5a5d2608ed81c4e27caef76b579acaedc904253d001a2"
+                      }
+                  ]
+}
