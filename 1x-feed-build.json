@@ -1,10 +1,10 @@
 {
     "schemaVersion":  1,
     "channel":  "alpha",
-    "version":  "1.0.5",
-    "sourceCommit":  "af521d8db69273624a4e7598285626ccf5932af8",
-    "packageSha256":  "6c2d0aefdb937846e64b840e4496c14b3f697a8804ea103b0799ad344856b976",
-    "setupSha256":  "4cf0398846cc81680e448264dfcd283060f23cfe1e0c67f221e25ac9b50912df",
+    "version":  "1.0.6",
+    "sourceCommit":  "96d36ebc2793177410ca7459f11526a30e3b5de7",
+    "packageSha256":  "4b178495b2c9f08c409dfd622831daeb6d9a5bc4c1ce72e497fa509702f6e941",
+    "setupSha256":  "037bf89f02749664858500dcffb2ef69811d88760f245a379a2ec0414616d471",
     "publication":  "NOT_PERFORMED",
     "consumerReleaseReady":  false,
     "scope":  "OFFICIAL_GITHUB_1X_KEYLESS_QA_CANDIDATE_NOT_LIVE",
@@ -14,5 +14,5 @@
     "installedUserRuntime":  "NOT_RUN",
     "realPostHandoffRollback":  "NOT_RUN",
     "automaticStartupApply":  "OFF",
-    "legacySignedRootPreserved":  true
+    "legacySignedRootPreserved":  false
 }
