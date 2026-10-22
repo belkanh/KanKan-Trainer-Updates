@@ -38,6 +38,72 @@ class OneXFeedTests(unittest.TestCase):
                          json.loads((self.out / "1x-feed-build.json").read_text())
                          ["publication"])
 
+    def test_staging_pins_installer_sha256(self):
+        self.prepare()
+        receipt = json.loads((self.out / "1x-feed-build.json").read_text())
+        _, _, expected = digests(self.out / self.setup.name)
+        self.assertEqual(expected, receipt["setupSha256"])
+        self.assertEqual("NOT_PERFORMED", receipt["publication"])
+
+    def test_installer_tamper_same_size_is_rejected(self):
+        self.prepare()
+        target = self.out / self.setup.name
+        before = target.read_bytes()
+        target.write_bytes(bytes([before[0] ^ 1]) + before[1:])
+        self.assertEqual(len(before), target.stat().st_size)
+        with self.assertRaisesRegex(FeedError, "staging receipt"):
+            verify(self.out)
+
+    def test_missing_installer_pin_fails_closed(self):
+        self.prepare()
+        target = self.out / "1x-feed-build.json"
+        receipt = json.loads(target.read_text())
+        del receipt["setupSha256"]
+        target.write_text(json.dumps(receipt))
+        with self.assertRaisesRegex(FeedError, "staging receipt"):
+            verify(self.out)
+
+    def test_wrong_installer_pin_fails_closed(self):
+        self.prepare()
+        target = self.out / "1x-feed-build.json"
+        receipt = json.loads(target.read_text())
+        receipt["setupSha256"] = "0" * 64
+        target.write_text(json.dumps(receipt))
+        with self.assertRaisesRegex(FeedError, "staging receipt"):
+            verify(self.out)
+
+    def test_lowercase_installer_pin_supported(self):
+        self.prepare()
+        target = self.out / "1x-feed-build.json"
+        receipt = json.loads(target.read_text())
+        receipt["setupSha256"] = receipt["setupSha256"].lower()
+        target.write_text(json.dumps(receipt))
+        self.assertEqual("1.0.5", verify(self.out)["version"])
+
+    def test_mixed_feed_rejects_installer_tamper(self):
+        self.prepare_legacy_signed_and_keyless()
+        target = self.out / self.setup.name
+        before = target.read_bytes()
+        target.write_bytes(bytes([before[0] ^ 1]) + before[1:])
+        self.assertEqual(len(before), target.stat().st_size)
+        with self.assertRaisesRegex(FeedError, "staging receipt"):
+            verify(self.out)
+
+    def test_legacy_signed_only_still_has_no_keyless_receipt_requirement(self):
+        self.prepare_legacy_signed_and_keyless()
+        idx = json.loads((self.out / "releases.alpha.json").read_text())
+        legacy = idx["Assets"][0]
+        (self.out / "releases.alpha.json").write_text(json.dumps({"Assets": [legacy]}))
+        (self.out / "RELEASES-alpha").write_text(
+            "\ufeff" + f"{legacy['SHA1']} {legacy['FileName']} {legacy['Size']}\n")
+        (self.out / "assets.alpha.json").write_text(json.dumps([
+            {"RelativeFileName": self.setup.name, "Type": "Installer"},
+            {"RelativeFileName": legacy["FileName"], "Type": "Full"}]))
+        (self.out / "1x-feed-build.json").unlink()
+        result = verify(self.out)
+        self.assertEqual("legacy-signed", result["mode"])
+        self.assertEqual("1.0.3", result["version"])
+
     def test_tampered_download_is_rejected(self):
         self.prepare()
         with (self.out / self.pkg.name).open("ab") as f:

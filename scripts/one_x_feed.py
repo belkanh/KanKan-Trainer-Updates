@@ -113,6 +113,8 @@ def verify(root: Path) -> dict:
     installer = root / f"{PACKAGE_ID}-alpha-Setup.exe"
     require(installer.is_file() and not installer.is_symlink()
             and installer.stat().st_size > 0, "Matching installer is absent")
+    installer_size, _, installer_sha256 = digests(installer)
+    require(installer_size > 0, "Empty installer")
 
     newest = max(checked, key=lambda x: tuple(map(int, x[0]["Version"].split("."))))
     latest_asset, _, latest_sha256, latest_size = newest
@@ -156,6 +158,9 @@ def verify(root: Path) -> dict:
                 and receipt.get("channel") == CHANNEL
                 and isinstance(receipt.get("packageSha256"), str)
                 and receipt["packageSha256"].upper() == latest_sha256
+                and isinstance(receipt.get("setupSha256"), str)
+                and SHA256_RE.fullmatch(receipt["setupSha256"]) is not None
+                and receipt["setupSha256"].upper() == installer_sha256
                 and isinstance(receipt.get("sourceCommit"), str)
                 and COMMIT_RE.fullmatch(receipt["sourceCommit"]) is not None
                 and receipt.get("consumerReleaseReady") is not True,
@@ -191,6 +196,7 @@ def stage(package: Path, installer: Path, source_commit: str, dest: Path) -> dic
     shutil.copyfile(installer, dest / installer.name)
     size, sha1, sha256 = digests(dest / package.name)
     require(size > 0, "Empty update package")
+    _, _, setup_sha256 = digests(dest / installer.name)
     entry = {"PackageId": PACKAGE_ID, "Version": match[1], "Type": "Full",
              "FileName": package.name, "SHA1": sha1, "SHA256": sha256,
              "Size": size}
@@ -207,7 +213,8 @@ def stage(package: Path, installer: Path, source_commit: str, dest: Path) -> dic
     (dest / "1x-feed-build.json").write_text(
         json.dumps({"schemaVersion": 1, "channel": CHANNEL,
                     "version": match[1], "sourceCommit": source_commit.lower(),
-                    "packageSha256": sha256, "publication": "NOT_PERFORMED"},
+                    "packageSha256": sha256, "setupSha256": setup_sha256,
+                    "publication": "NOT_PERFORMED"},
                    indent=2) + "\n", encoding="utf-8")
     return verify(dest)
 
