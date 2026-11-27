@@ -95,7 +95,7 @@ class OneXFeedTests(unittest.TestCase):
         legacy = idx["Assets"][0]
         (self.out / "releases.alpha.json").write_text(json.dumps({"Assets": [legacy]}))
         (self.out / "RELEASES-alpha").write_text(
-            "\ufeff" + f"{legacy['SHA1']} {legacy['FileName']} {legacy['Size']}\n")
+            "\ufeff" + f"{legacy['SHA1']} {legacy['FileName']} {legacy['Size']}\n", encoding="utf-8")
         (self.out / "assets.alpha.json").write_text(json.dumps([
             {"RelativeFileName": self.setup.name, "Type": "Installer"},
             {"RelativeFileName": legacy["FileName"], "Type": "Full"}]))
