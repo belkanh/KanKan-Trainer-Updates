@@ -1,8 +1,10 @@
-# KanKan Trainer — official 1.x update feed (1.0.6 release candidate)
+# KanKan Trainer — official 1.x update feed
 
-This tree is the proposed official GitHub HTTPS alpha channel, prepared
-from the existing clean no-RSA 1.0.5 candidate. A Git branch alone does
-not deliver updates: installed clients read only KanKan-Trainer-Updates/main.
+The root alpha feed contains version 1.0.6, activated through the owner-approved
+[publication commit](https://github.com/belkanh/KanKan-Trainer-Updates/commit/cbb0fed141b9f697acaf29b50998a4732bca8c86).
+Installed 1.x clients use the official GitHub HTTPS main branch. A candidate
+branch alone does not deliver updates. The separate `independent/releases.alpha.json`
+index contains independently versioned QA prereleases; it is not the root 1.x feed.
 
 ## Source-bound 1.0.6 files
 
@@ -24,7 +26,11 @@ clean 1.0.5 candidate and its original source manifest remain in
 candidate/clean-1x-keyless-feed-20261020 at commit
 24269530d9ae73868029f8528e43b963abac490c.
 
-Publication and installed acceptance are separate. This candidate has
-not by itself proven a 1.0.5-to-1.0.6 in-app installed update, real
-post-handoff automatic rollback, or owner acceptance. Automatic startup
-Apply remains OFF. ONI KKA1 production Apply stays STOP/fail-closed.
+Publication and full product acceptance are separate. A historical installed
+1.0.5-to-1.0.6 UI Check/Download/Apply/restart/recheck succeeded. This is not a
+new test of the current development branches. Real post-handoff automatic rollback
+and full consumer acceptance remain unproven. `1x-feed-build.json` retains the
+original build-time test status; its publication and scope fields record the
+subsequent owner-approved 1.0.6 root publication. `consumerReleaseReady` remains
+false. Automatic startup Apply remains OFF. ONI KKA1 production Apply stays
+STOP/fail-closed.
